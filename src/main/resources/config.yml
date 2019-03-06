@@ -1,0 +1,11 @@
+logFile: "/logs/events.log"
+logLoggerStatus: true
+logBlockBreak: true
+logBlockPlace: true
+logPlayerDeath: true
+logPlayerJoin: true
+logPlayerQuit: true
+logItemDrop: true
+logBucketFill: true
+logBucketEmpty: true
+logPlayerCommand: true

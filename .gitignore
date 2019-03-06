@@ -1,0 +1,17 @@
+*.class
+*.log
+*.ctxt
+.mtj.tmp/
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+hs_err_pid*
+.project
+.settings
+.classpath
+target/
+.iml
+.idea
