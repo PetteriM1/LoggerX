@@ -30,14 +30,14 @@ public class Main extends PluginBase implements Listener {
     @EventHandler
     public void logBreak(BlockBreakEvent e) {
         if (!e.isCancelled() && c.getBoolean("logBlockBreak")) {
-            Logger.get.print(e.getPlayer().getName() + " broke block " + e.getBlock().getName() + " (" + e.getBlock().getId() + ") at [l] [x] [y] [z]", e.getBlock().getLocation());
+            Logger.get.print(e.getPlayer().getName() + " broke block " + e.getBlock().getName() + " (" + e.getBlock().getId() + ":" + e.getBlock().getDamage() + ") at [l] [x] [y] [z]", e.getBlock().getLocation());
         }
     }
 
     @EventHandler
     public void logPlace(BlockPlaceEvent e) {
         if (!e.isCancelled() && c.getBoolean("logBlockPlace")) {
-            Logger.get.print(e.getPlayer().getName() + " placed block " + e.getBlock().getName() + " (" + e.getBlock().getId() + ") at [l] [x] [y] [z]", e.getBlock().getLocation());
+            Logger.get.print(e.getPlayer().getName() + " placed block " + e.getBlock().getName() + " (" + e.getBlock().getId() + ":" + e.getBlock().getDamage() + ") at [l] [x] [y] [z]", e.getBlock().getLocation());
         }
     }
 
@@ -90,7 +90,7 @@ public class Main extends PluginBase implements Listener {
         }
     }
 
-    public String textFromContainer(TextContainer container) {
+    private String textFromContainer(TextContainer container) {
         if (container instanceof TranslationContainer) {
             return getServer().getLanguage().translateString(container.getText(), ((TranslationContainer) container).getParameters());
         } else {
