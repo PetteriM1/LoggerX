@@ -13,8 +13,8 @@ public class Logger extends Thread {
 
     public File logFile;
     public String logPath;
-    public boolean shutdown = false;
-    public boolean isShutdown = false;
+    public boolean shutdown;
+    public boolean isShutdown;
     public ConcurrentLinkedQueue<String> logBuffer = new ConcurrentLinkedQueue<>();
     public static Logger get;
 
@@ -43,7 +43,7 @@ public class Logger extends Thread {
         if (pos == null) {
             logBuffer.add(message);
         } else {
-            logBuffer.add(message.replace("[x]", String.valueOf(pos.x)).replace("[y]", String.valueOf(pos.y)).replace("[z]", String.valueOf(pos.z)).replace("[l]", pos.getLevel().getName()));
+            logBuffer.add(message.replace("[x]", String.valueOf(Math.round(pos.x))).replace("[y]", String.valueOf(Math.round(pos.y))).replace("[z]", String.valueOf(Math.round(pos.z))).replace("[l]", pos.getLevel().getName()));
         }
     }
 
