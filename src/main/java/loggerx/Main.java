@@ -65,7 +65,7 @@ public class Main extends PluginBase implements Listener {
     @EventHandler
     public void logDrop(PlayerDropItemEvent e) {
         if (!e.isCancelled() && c.getBoolean("logItemDrop")) {
-            Logger.get.print(e.getPlayer().getName() + " dropped item " + e.getItem().getName() + " (" + e.getItem().getId() + ") at [l] [z] [y] [z]", e.getPlayer().getLocation());
+            Logger.get.print(e.getPlayer().getName() + " dropped item " + e.getItem().getName() + " (" + e.getItem().getId() + ':' + e.getItem().getDamage() + ") at [l] [z] [y] [z]", e.getPlayer().getLocation());
         }
     }
 
