@@ -1,5 +1,6 @@
 package loggerx;
 
+import cn.nukkit.block.Block;
 import cn.nukkit.level.Location;
 import cn.nukkit.utils.TextFormat;
 
@@ -39,12 +40,16 @@ public class Logger extends Thread {
         }
     }
 
+    public void print(String message) {
+        logBuffer.add(message);
+    }
+
     public void print(String message, Location pos) {
-        if (pos == null) {
-            logBuffer.add(message);
-        } else {
-            logBuffer.add(message.replace("[x]", String.valueOf(Math.round(pos.x))).replace("[y]", String.valueOf(Math.round(pos.y))).replace("[z]", String.valueOf(Math.round(pos.z))).replace("[l]", pos.getLevel().getName()));
-        }
+        logBuffer.add(message.replace("[x]", String.valueOf(Math.round(pos.x))).replace("[y]", String.valueOf(Math.round(pos.y))).replace("[z]", String.valueOf(Math.round(pos.z))).replace("[l]", pos.getLevel().getName()));
+    }
+
+    public void print(String message, Block b) {
+        logBuffer.add(message.replace("[x]", String.valueOf(Math.round(b.x))).replace("[y]", String.valueOf(Math.round(b.y))).replace("[z]", String.valueOf(Math.round(b.z))).replace("[l]", b.getLevel().getName()));
     }
 
     @Override

@@ -20,24 +20,24 @@ public class Main extends PluginBase implements Listener {
         saveDefaultConfig();
         c = getConfig();
         new Logger(System.getProperty("user.dir") + c.getString("logFile", "/logs/events.log"));
-        if (c.getBoolean("logLoggerStatus")) Logger.get.print("Logging started: Logger starting up", null);
+        if (c.getBoolean("logLoggerStatus")) Logger.get.print("Logging started: Logger starting up");
     }
 
     public void onDisable() {
-        if (c.getBoolean("logLoggerStatus")) Logger.get.print("Logging stopped: Logger shutting down", null);
+        if (c.getBoolean("logLoggerStatus")) Logger.get.print("Logging stopped: Logger shutting down");
     }
 
     @EventHandler
     public void logBreak(BlockBreakEvent e) {
         if (!e.isCancelled() && c.getBoolean("logBlockBreak")) {
-            Logger.get.print(e.getPlayer().getName() + " broke block " + e.getBlock().getName() + " (" + e.getBlock().getId() + ":" + e.getBlock().getDamage() + ") at [l] [x] [y] [z]", e.getBlock().getLocation());
+            Logger.get.print(e.getPlayer().getName() + " broke block " + e.getBlock().getId().getName() + " (" + e.getBlock().getId() + ":" + e.getBlock().getDamage() + ") at [l] [x] [y] [z]", e.getBlock());
         }
     }
 
     @EventHandler
     public void logPlace(BlockPlaceEvent e) {
         if (!e.isCancelled() && c.getBoolean("logBlockPlace")) {
-            Logger.get.print(e.getPlayer().getName() + " placed block " + e.getBlock().getName() + " (" + e.getBlock().getId() + ":" + e.getBlock().getDamage() + ") at [l] [x] [y] [z]", e.getBlock().getLocation());
+            Logger.get.print(e.getPlayer().getName() + " placed block " + e.getBlock().getId().getName() + " (" + e.getBlock().getId() + ":" + e.getBlock().getDamage() + ") at [l] [x] [y] [z]", e.getBlock());
         }
     }
 
@@ -51,14 +51,14 @@ public class Main extends PluginBase implements Listener {
     @EventHandler
     public void logJoin(PlayerJoinEvent e) {
         if (c.getBoolean("logPlayerJoin")) {
-            Logger.get.print(e.getPlayer().getName() + " joined", null);
+            Logger.get.print(e.getPlayer().getName() + " joined");
         }
     }
 
     @EventHandler
     public void logQuit(PlayerQuitEvent e) {
         if (c.getBoolean("logPlayerQuit")) {
-            Logger.get.print(e.getPlayer().getName() + " disconnected: " + e.getReason(), null);
+            Logger.get.print(e.getPlayer().getName() + " disconnected: " + e.getReason());
         }
     }
 
@@ -72,14 +72,14 @@ public class Main extends PluginBase implements Listener {
     @EventHandler
     public void logFill(PlayerBucketFillEvent e) {
         if (!e.isCancelled() && c.getBoolean("logBucketFill")) {
-            Logger.get.print(e.getPlayer().getName() + " filled bucket at [l] [x] [y] [z]", e.getBlockClicked().getLocation());
+            Logger.get.print(e.getPlayer().getName() + " filled bucket at [l] [x] [y] [z]", e.getBlockClicked());
         }
     }
 
     @EventHandler
     public void logEmpty(PlayerBucketEmptyEvent e) {
         if (!e.isCancelled() && c.getBoolean("logBucketEmpty")) {
-            Logger.get.print(e.getPlayer().getName() + " emptied bucket at [l] [x] [y] [z]", e.getBlockClicked().getLocation());
+            Logger.get.print(e.getPlayer().getName() + " emptied bucket at [l] [x] [y] [z]", e.getBlockClicked());
         }
     }
 
