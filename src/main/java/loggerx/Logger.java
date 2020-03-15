@@ -70,7 +70,7 @@ public class Logger extends Thread {
         if (!logFile.exists()) {
             try {
                 logFile.createNewFile();
-            } catch (IOException e) {}
+            } catch (IOException ignored) {}
         }
     }
 
@@ -99,13 +99,13 @@ public class Logger extends Thread {
                 }
             }
             writer.flush();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         } finally {
             try {
                 if (writer != null) {
                     writer.close();
                 }
-            } catch (IOException e) {}
+            } catch (IOException ignored) {}
         }
     }
 }

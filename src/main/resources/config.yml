@@ -1,3 +1,4 @@
+configVersion: 2
 logFile: "/logs/events.log"
 logLoggerStatus: true
 logBlockBreak: true
@@ -9,3 +10,5 @@ logItemDrop: true
 logBucketFill: true
 logBucketEmpty: true
 logPlayerCommand: true
+logFire: true
+logChestOpen: true

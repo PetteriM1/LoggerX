@@ -1,10 +1,14 @@
 package loggerx;
 
+import cn.nukkit.blockentity.BlockEntityChest;
 import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.block.BlockBreakEvent;
+import cn.nukkit.event.block.BlockIgniteEvent;
 import cn.nukkit.event.block.BlockPlaceEvent;
+import cn.nukkit.event.inventory.InventoryOpenEvent;
 import cn.nukkit.event.player.*;
+import cn.nukkit.inventory.ChestInventory;
 import cn.nukkit.lang.TextContainer;
 import cn.nukkit.lang.TranslationContainer;
 import cn.nukkit.plugin.PluginBase;
@@ -20,6 +24,7 @@ public class Main extends PluginBase implements Listener {
         saveDefaultConfig();
         c = getConfig();
         new Logger(System.getProperty("user.dir") + c.getString("logFile", "/logs/events.log"));
+        if (c.getInt("configVersion") != 2) getLogger().warning("Outdated config! Please delete the old config file to use the new features.");
         if (c.getBoolean("logLoggerStatus")) Logger.get.print("Logging started: Logger starting up");
     }
 
@@ -30,14 +35,14 @@ public class Main extends PluginBase implements Listener {
     @EventHandler
     public void logBreak(BlockBreakEvent e) {
         if (!e.isCancelled() && c.getBoolean("logBlockBreak")) {
-            Logger.get.print(e.getPlayer().getName() + " broke block " + e.getBlock().getId().getName() + " (" + e.getBlock().getId() + ":" + e.getBlock().getDamage() + ") at [l] [x] [y] [z]", e.getBlock());
+            Logger.get.print(e.getPlayer().getName() + " broke block " + e.getBlock().getId() + " (" + e.getBlock().getId() + ":" + e.getBlock().getDamage() + ") at [l] [x] [y] [z]", e.getBlock());
         }
     }
 
     @EventHandler
     public void logPlace(BlockPlaceEvent e) {
         if (!e.isCancelled() && c.getBoolean("logBlockPlace")) {
-            Logger.get.print(e.getPlayer().getName() + " placed block " + e.getBlock().getId().getName() + " (" + e.getBlock().getId() + ":" + e.getBlock().getDamage() + ") at [l] [x] [y] [z]", e.getBlock());
+            Logger.get.print(e.getPlayer().getName() + " placed block " + e.getBlock().getId() + " (" + e.getBlock().getId() + ":" + e.getBlock().getDamage() + ") at [l] [x] [y] [z]", e.getBlock());
         }
     }
 
@@ -87,6 +92,24 @@ public class Main extends PluginBase implements Listener {
     public void logCommand(PlayerCommandPreprocessEvent e) {
         if (!e.isCancelled() && c.getBoolean("logPlayerCommand")) {
             Logger.get.print(e.getPlayer().getName() + " ran command " + e.getMessage() + " at [l] [x] [y] [z]", e.getPlayer().getLocation());
+        }
+    }
+
+    @EventHandler
+    public void logFire(BlockIgniteEvent e) {
+        if (BlockIgniteEvent.BlockIgniteCause.FLINT_AND_STEEL == e.getCause()) {
+            if (c.getBoolean("logFire")) {
+                Logger.get.print(e.getEntity().getName() + " made a fire at [l] [x] [y] [z]", e.getBlock().getLocation());
+            }
+        }
+    }
+
+    @EventHandler
+    public void logChestOpen(InventoryOpenEvent e) {
+        if (e.getInventory() instanceof ChestInventory) {
+            if (c.getBoolean("logChestOpen")) {
+                Logger.get.print(e.getPlayer().getName() + " opened a chest at [l] [x] [y] [z]", ((BlockEntityChest) e.getInventory().getHolder()).getLocation());
+            }
         }
     }
 
