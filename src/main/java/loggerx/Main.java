@@ -2,6 +2,7 @@ package loggerx;
 
 import cn.nukkit.blockentity.BlockEntityChest;
 import cn.nukkit.event.EventHandler;
+import cn.nukkit.event.EventPriority;
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.block.BlockBreakEvent;
 import cn.nukkit.event.block.BlockIgniteEvent;
@@ -32,70 +33,70 @@ public class Main extends PluginBase implements Listener {
         if (c.getBoolean("logLoggerStatus")) Logger.get.print("Logging stopped: Logger shutting down");
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void logBreak(BlockBreakEvent e) {
-        if (!e.isCancelled() && c.getBoolean("logBlockBreak")) {
+        if (c.getBoolean("logBlockBreak")) {
             Logger.get.print(e.getPlayer().getName() + " broke block " + e.getBlock().getId() + " (" + e.getBlock().getId() + ":" + e.getBlock().getDamage() + ") at [l] [x] [y] [z]", e.getBlock());
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void logPlace(BlockPlaceEvent e) {
-        if (!e.isCancelled() && c.getBoolean("logBlockPlace")) {
+        if (c.getBoolean("logBlockPlace")) {
             Logger.get.print(e.getPlayer().getName() + " placed block " + e.getBlock().getId() + " (" + e.getBlock().getId() + ":" + e.getBlock().getDamage() + ") at [l] [x] [y] [z]", e.getBlock());
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void logDeath(PlayerDeathEvent e) {
-        if (!e.isCancelled() && c.getBoolean("logPlayerDeath")) {
+        if (c.getBoolean("logPlayerDeath")) {
             Logger.get.print(TextFormat.clean(textFromContainer(e.getDeathMessage())) + " at [l] [x] [y] [z]", e.getEntity().getLocation());
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void logJoin(PlayerJoinEvent e) {
         if (c.getBoolean("logPlayerJoin")) {
             Logger.get.print(e.getPlayer().getName() + " joined");
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void logQuit(PlayerQuitEvent e) {
         if (c.getBoolean("logPlayerQuit")) {
             Logger.get.print(e.getPlayer().getName() + " disconnected: " + e.getReason());
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void logDrop(PlayerDropItemEvent e) {
-        if (!e.isCancelled() && c.getBoolean("logItemDrop")) {
+        if (c.getBoolean("logItemDrop")) {
             Logger.get.print(e.getPlayer().getName() + " dropped item " + e.getItem().getName() + " (" + e.getItem().getId() + ':' + e.getItem().getDamage() + ") at [l] [z] [y] [z]", e.getPlayer().getLocation());
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void logFill(PlayerBucketFillEvent e) {
-        if (!e.isCancelled() && c.getBoolean("logBucketFill")) {
+        if (c.getBoolean("logBucketFill")) {
             Logger.get.print(e.getPlayer().getName() + " filled bucket at [l] [x] [y] [z]", e.getBlockClicked());
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void logEmpty(PlayerBucketEmptyEvent e) {
-        if (!e.isCancelled() && c.getBoolean("logBucketEmpty")) {
+        if (c.getBoolean("logBucketEmpty")) {
             Logger.get.print(e.getPlayer().getName() + " emptied bucket at [l] [x] [y] [z]", e.getBlockClicked());
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void logCommand(PlayerCommandPreprocessEvent e) {
-        if (!e.isCancelled() && c.getBoolean("logPlayerCommand")) {
+        if (c.getBoolean("logPlayerCommand")) {
             Logger.get.print(e.getPlayer().getName() + " ran command " + e.getMessage() + " at [l] [x] [y] [z]", e.getPlayer().getLocation());
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void logFire(BlockIgniteEvent e) {
         if (BlockIgniteEvent.BlockIgniteCause.FLINT_AND_STEEL == e.getCause()) {
             if (c.getBoolean("logFire")) {
@@ -104,7 +105,7 @@ public class Main extends PluginBase implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void logChestOpen(InventoryOpenEvent e) {
         if (e.getInventory() instanceof ChestInventory) {
             if (c.getBoolean("logChestOpen")) {
