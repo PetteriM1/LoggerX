@@ -6,7 +6,7 @@
 
     <groupId>loggerx</groupId>
     <artifactId>LoggerX</artifactId>
-    <version>1.0.4.2</version>
+    <version>1.0.4.3</version>
     <build>
         <defaultGoal>install</defaultGoal>
         <sourceDirectory>${basedir}/src/main/java</sourceDirectory>

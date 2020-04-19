@@ -1,5 +1,6 @@
 package loggerx;
 
+import cn.nukkit.Player;
 import cn.nukkit.blockentity.BlockEntityChest;
 import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.EventPriority;
@@ -57,7 +58,8 @@ public class Main extends PluginBase implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void logJoin(PlayerJoinEvent e) {
         if (c.getBoolean("logPlayerJoin")) {
-            Logger.get.print(e.getPlayer().getName() + " joined");
+            Player p = e.getPlayer();
+            Logger.get.print(p.getName() + " joined [" + getOS(p) + '|' + p.getLoginChainData().getGameVersion() + '|' + p.getLoginChainData().getLanguageCode() + ']');
         }
     }
 
@@ -119,6 +121,39 @@ public class Main extends PluginBase implements Listener {
             return getServer().getLanguage().translateString(container.getText(), ((TranslationContainer) container).getParameters());
         } else {
             return container.getText();
+        }
+    }
+
+    private static String getOS(Player p) {
+        switch(p.getLoginChainData().getDeviceOS()) {
+            case 1:
+                return "Android";
+            case 2:
+                return "iOS";
+            case 3:
+                return "Mac";
+            case 4:
+                return "Fire";
+            case 5:
+                return "Gear VR";
+            case 6:
+                return "HoloLens";
+            case 7:
+                return "Windows 10";
+            case 8:
+                return "Windows";
+            case 9:
+                return "Dedicated";
+            case 10:
+                return "tvOS";
+            case 11:
+                return "PlayStation";
+            case 12:
+                return "NX";
+            case 13:
+                return "Xbox";
+            default:
+                return "Unknown";
         }
     }
 }
