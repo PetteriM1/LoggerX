@@ -80,14 +80,14 @@ public class Main extends PluginBase implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void logFill(PlayerBucketFillEvent e) {
         if (c.getBoolean("logBucketFill")) {
-            Logger.get.print(e.getPlayer().getName() + " filled bucket at [l] [x] [y] [z]", e.getBlockClicked());
+            Logger.get.print(e.getPlayer().getName() + " filled " + e.getBucket().getName() + " at [l] [x] [y] [z]", e.getBlockClicked());
         }
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void logEmpty(PlayerBucketEmptyEvent e) {
         if (c.getBoolean("logBucketEmpty")) {
-            Logger.get.print(e.getPlayer().getName() + " emptied bucket at [l] [x] [y] [z]", e.getBlockClicked());
+            Logger.get.print(e.getPlayer().getName() + " emptied " + e.getBucket().getName() + " at [l] [x] [y] [z]", e.getBlockClicked());
         }
     }
 
