@@ -11,6 +11,7 @@ import cn.nukkit.event.block.BlockPlaceEvent;
 import cn.nukkit.event.inventory.InventoryOpenEvent;
 import cn.nukkit.event.player.*;
 import cn.nukkit.inventory.ChestInventory;
+import cn.nukkit.inventory.DoubleChestInventory;
 import cn.nukkit.lang.TextContainer;
 import cn.nukkit.lang.TranslationContainer;
 import cn.nukkit.plugin.PluginBase;
@@ -112,6 +113,10 @@ public class Main extends PluginBase implements Listener {
         if (e.getInventory() instanceof ChestInventory) {
             if (c.getBoolean("logChestOpen")) {
                 Logger.get.print(e.getPlayer().getName() + " opened a chest at [l] [x] [y] [z]", ((BlockEntityChest) e.getInventory().getHolder()).getLocation());
+            }
+        } else if (e.getInventory() instanceof DoubleChestInventory) {
+            if (c.getBoolean("logChestOpen")) {
+                Logger.get.print(e.getPlayer().getName() + " opened a double chest at [l] [x] [y] [z]", ((BlockEntityChest) e.getInventory().getHolder()).getLocation());
             }
         }
     }
