@@ -1,5 +1,6 @@
 package loggerx;
 
+import cn.nukkit.Server;
 import cn.nukkit.block.Block;
 import cn.nukkit.level.Location;
 import cn.nukkit.utils.TextFormat;
@@ -14,14 +15,22 @@ public class Logger extends Thread {
 
     public File logFile;
     public String logPath;
+    public String archivePath;
+    public boolean archiveOldLogs;
     public boolean shutdown;
     public boolean isShutdown;
     public ConcurrentLinkedQueue<String> logBuffer = new ConcurrentLinkedQueue<>();
     public static Logger get;
 
-    public Logger(String logFile) {
+    public Logger(String logPath) {
+        this(logPath, null, false);
+    }
+
+    public Logger(String logPath, String archivePath, boolean archiveOldLogs) {
         get = this;
-        logPath = logFile;
+        this.logPath = logPath;
+        this.archivePath = archivePath;
+        this.archiveOldLogs = archiveOldLogs;
         initialize();
         start();
     }
@@ -70,7 +79,24 @@ public class Logger extends Thread {
         if (!logFile.exists()) {
             try {
                 logFile.createNewFile();
-            } catch (IOException ignored) {}
+            } catch (IOException e) {
+                Server.getInstance().getLogger().logException(e);
+            }
+        } else if (archiveOldLogs) {
+            File oldLogs = new File(archivePath);
+            if (!oldLogs.exists()) {
+                oldLogs.mkdirs();
+            }
+            String newName = new SimpleDateFormat("y-M-d HH.mm.ss ").format(new Date(logFile.lastModified())) + logFile.getName();
+            logFile.renameTo(new File(oldLogs, newName));
+            logFile = new File(logPath);
+            if (!logFile.exists()) {
+                try {
+                    logFile.createNewFile();
+                } catch (IOException e) {
+                    Server.getInstance().getLogger().logException(e);
+                }
+            }
         }
     }
 
@@ -89,7 +115,7 @@ public class Logger extends Thread {
         Writer writer = null;
         try {
             writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(logFile, true), StandardCharsets.UTF_8), 1024);
-            String fileDateFormat = new SimpleDateFormat("Y-M-d HH:mm:ss ").format(new Date());
+            String fileDateFormat = new SimpleDateFormat("y-M-d HH:mm:ss ").format(new Date());
             while (!logBuffer.isEmpty()) {
                 String message = logBuffer.poll();
                 if (message != null) {

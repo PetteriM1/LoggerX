@@ -1,5 +1,7 @@
-configVersion: 2
-logFile: "/logs/events.log"
+configVersion: 3
+logFile: "/plugins/LoggerX/events.log"
+archiveOldLogs: true
+archiveLocation: "/plugins/LoggerX/archive"
 logLoggerStatus: true
 logBlockBreak: true
 logBlockPlace: true

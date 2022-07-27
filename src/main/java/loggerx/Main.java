@@ -20,14 +20,16 @@ import cn.nukkit.utils.TextFormat;
 
 public class Main extends PluginBase implements Listener {
 
-    Config c;
+    private Config c;
 
     public void onEnable() {
         getServer().getPluginManager().registerEvents(this, this);
         saveDefaultConfig();
         c = getConfig();
-        new Logger(System.getProperty("user.dir") + c.getString("logFile", "/logs/events.log"));
-        if (c.getInt("configVersion") != 2) getLogger().warning("Outdated config! Please delete the old config file to use the new features.");
+        new Logger(System.getProperty("user.dir") + c.getString("logFile", "/plugins/LoggerX/events.log"),
+                System.getProperty("user.dir") + c.getString("archiveLocation", "/plugins/LoggerX/archive"),
+                c.getBoolean("archiveOldLogs"));
+        if (c.getInt("configVersion") != 3) getLogger().warning("Outdated config! Please delete the old config file to use new features");
         if (c.getBoolean("logLoggerStatus")) Logger.get.print("Logging started: Logger starting up");
     }
 
@@ -129,16 +131,16 @@ public class Main extends PluginBase implements Listener {
         }
     }
 
-    private static String getOS(Player p) {
-        switch(p.getLoginChainData().getDeviceOS()) {
+    private static String getOS(Player player) {
+        switch (player.getLoginChainData().getDeviceOS()) {
             case 1:
                 return "Android";
             case 2:
                 return "iOS";
             case 3:
-                return "Mac";
+                return "macOS";
             case 4:
-                return "Fire";
+                return "Fire OS";
             case 5:
                 return "Gear VR";
             case 6:
@@ -154,9 +156,11 @@ public class Main extends PluginBase implements Listener {
             case 11:
                 return "PlayStation";
             case 12:
-                return "NX";
+                return "Switch";
             case 13:
                 return "Xbox";
+            case 14:
+                return "Windows Phone";
             default:
                 return "Unknown";
         }
