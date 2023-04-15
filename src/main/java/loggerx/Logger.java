@@ -54,11 +54,13 @@ public class Logger extends Thread {
     }
 
     public void print(String message, Location pos) {
-        logBuffer.add(message.replace("[x]", String.valueOf(Math.round(pos.x))).replace("[y]", String.valueOf(Math.round(pos.y))).replace("[z]", String.valueOf(Math.round(pos.z))).replace("[l]", pos.getLevel().getName()));
+        String lvl = pos.level == null ? "<null>" : pos.level.getName();
+        logBuffer.add(message.replace("[x]", String.valueOf(Math.round(pos.x))).replace("[y]", String.valueOf(Math.round(pos.y))).replace("[z]", String.valueOf(Math.round(pos.z))).replace("[l]", lvl));
     }
 
     public void print(String message, Block b) {
-        logBuffer.add(message.replace("[x]", String.valueOf(Math.round(b.x))).replace("[y]", String.valueOf(Math.round(b.y))).replace("[z]", String.valueOf(Math.round(b.z))).replace("[l]", b.getLevel().getName()));
+        String lvl = b.level == null ? "<null>" : b.level.getName();
+        logBuffer.add(message.replace("[x]", String.valueOf(Math.round(b.x))).replace("[y]", String.valueOf(Math.round(b.y))).replace("[z]", String.valueOf(Math.round(b.z))).replace("[l]", lvl));
     }
 
     @Override

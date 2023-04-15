@@ -8,6 +8,7 @@ import cn.nukkit.event.Listener;
 import cn.nukkit.event.block.BlockBreakEvent;
 import cn.nukkit.event.block.BlockIgniteEvent;
 import cn.nukkit.event.block.BlockPlaceEvent;
+import cn.nukkit.event.block.ItemFrameDropItemEvent;
 import cn.nukkit.event.inventory.InventoryOpenEvent;
 import cn.nukkit.event.player.*;
 import cn.nukkit.inventory.ChestInventory;
@@ -29,7 +30,7 @@ public class Main extends PluginBase implements Listener {
         new Logger(System.getProperty("user.dir") + c.getString("logFile", "/plugins/LoggerX/events.log"),
                 System.getProperty("user.dir") + c.getString("archiveLocation", "/plugins/LoggerX/archive"),
                 c.getBoolean("archiveOldLogs"));
-        if (c.getInt("configVersion") != 3) getLogger().warning("Outdated config! Please delete the old config file to use new features");
+        if (c.getInt("configVersion") != 4) getLogger().warning("Outdated config! Please delete the old config file to use new features");
         if (c.getBoolean("logLoggerStatus")) Logger.get.print("Logging started: Logger starting up");
     }
 
@@ -54,7 +55,7 @@ public class Main extends PluginBase implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void logDeath(PlayerDeathEvent e) {
         if (c.getBoolean("logPlayerDeath")) {
-            Logger.get.print(TextFormat.clean(textFromContainer(e.getDeathMessage())) + " at [l] [x] [y] [z]", e.getEntity().getLocation());
+            Logger.get.print(TextFormat.clean(textFromContainer(e.getDeathMessage())) + " at [l] [x] [y] [z]", e.getEntity());
         }
     }
 
@@ -76,7 +77,7 @@ public class Main extends PluginBase implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void logDrop(PlayerDropItemEvent e) {
         if (c.getBoolean("logItemDrop")) {
-            Logger.get.print(e.getPlayer().getName() + " dropped item " + e.getItem().getName() + " (" + e.getItem().getId() + ':' + e.getItem().getDamage() + ':' + e.getItem().getCount() + ") at [l] [z] [y] [z]", e.getPlayer().getLocation());
+            Logger.get.print(e.getPlayer().getName() + " dropped item " + e.getItem().getName() + " (" + e.getItem().getId() + ':' + e.getItem().getDamage() + ':' + e.getItem().getCount() + ") at [l] [z] [y] [z]", e.getPlayer());
         }
     }
 
@@ -97,7 +98,7 @@ public class Main extends PluginBase implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void logCommand(PlayerCommandPreprocessEvent e) {
         if (c.getBoolean("logPlayerCommand")) {
-            Logger.get.print(e.getPlayer().getName() + " ran command " + e.getMessage() + " at [l] [x] [y] [z]", e.getPlayer().getLocation());
+            Logger.get.print(e.getPlayer().getName() + " ran command " + e.getMessage() + " at [l] [x] [y] [z]", e.getPlayer());
         }
     }
 
@@ -105,7 +106,7 @@ public class Main extends PluginBase implements Listener {
     public void logFire(BlockIgniteEvent e) {
         if (BlockIgniteEvent.BlockIgniteCause.FLINT_AND_STEEL == e.getCause()) {
             if (c.getBoolean("logFire")) {
-                Logger.get.print(e.getEntity().getName() + " made a fire at [l] [x] [y] [z]", e.getBlock().getLocation());
+                Logger.get.print(e.getEntity().getName() + " made a fire at [l] [x] [y] [z]", e.getBlock());
             }
         }
     }
@@ -120,6 +121,13 @@ public class Main extends PluginBase implements Listener {
             if (c.getBoolean("logChestOpen")) {
                 Logger.get.print(e.getPlayer().getName() + " opened a double chest at [l] [x] [y] [z]", ((BlockEntityChest) e.getInventory().getHolder()).getLocation());
             }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void logItemFrameDrop(ItemFrameDropItemEvent e) {
+        if (c.getBoolean("logItemFrameDrop")) {
+            loggerx.Logger.get.print(e.getPlayer().getName() + " dropped " + e.getItem().getName() + " (" + e.getItem().getId() + ':' + e.getItem().getDamage() + ':' + e.getItem().getCount() + ") from item frame at [l] [x] [y] [z]", e.getBlock());
         }
     }
 
