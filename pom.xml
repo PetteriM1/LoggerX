@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>loggerx</groupId>
     <artifactId>LoggerX</artifactId>
-    <version>1.0.6.1</version>
+    <version>1.0.7</version>
     <build>
         <defaultGoal>install</defaultGoal>
         <sourceDirectory>${basedir}/src/main/java</sourceDirectory>

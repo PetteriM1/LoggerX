@@ -1,7 +1,8 @@
 package loggerx;
 
 import cn.nukkit.Player;
-import cn.nukkit.blockentity.BlockEntityChest;
+import cn.nukkit.blockentity.BlockEntity;
+import cn.nukkit.entity.Entity;
 import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.EventPriority;
 import cn.nukkit.event.Listener;
@@ -11,10 +12,11 @@ import cn.nukkit.event.block.BlockPlaceEvent;
 import cn.nukkit.event.block.ItemFrameDropItemEvent;
 import cn.nukkit.event.inventory.InventoryOpenEvent;
 import cn.nukkit.event.player.*;
-import cn.nukkit.inventory.ChestInventory;
-import cn.nukkit.inventory.DoubleChestInventory;
+import cn.nukkit.inventory.ContainerInventory;
+import cn.nukkit.inventory.InventoryHolder;
 import cn.nukkit.lang.TextContainer;
 import cn.nukkit.lang.TranslationContainer;
+import cn.nukkit.level.Location;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.Config;
 import cn.nukkit.utils.TextFormat;
@@ -30,7 +32,7 @@ public class Main extends PluginBase implements Listener {
         new Logger(System.getProperty("user.dir") + c.getString("logFile", "/plugins/LoggerX/events.log"),
                 System.getProperty("user.dir") + c.getString("archiveLocation", "/plugins/LoggerX/archive"),
                 c.getBoolean("archiveOldLogs"));
-        if (c.getInt("configVersion") != 4) getLogger().warning("Outdated config! Please delete the old config file to use new features");
+        if (c.getInt("configVersion") != 5) getLogger().warning("Outdated config! Please delete the old config file to use new features");
         if (c.getBoolean("logLoggerStatus")) Logger.get.print("Logging started: Logger starting up");
     }
 
@@ -113,13 +115,18 @@ public class Main extends PluginBase implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void logChestOpen(InventoryOpenEvent e) {
-        if (e.getInventory() instanceof ChestInventory) {
-            if (c.getBoolean("logChestOpen")) {
-                Logger.get.print(e.getPlayer().getName() + " opened a chest at [l] [x] [y] [z]", ((BlockEntityChest) e.getInventory().getHolder()).getLocation());
-            }
-        } else if (e.getInventory() instanceof DoubleChestInventory) {
-            if (c.getBoolean("logChestOpen")) {
-                Logger.get.print(e.getPlayer().getName() + " opened a double chest at [l] [x] [y] [z]", ((BlockEntityChest) e.getInventory().getHolder()).getLocation());
+        if (e.getInventory() instanceof ContainerInventory) {
+            if (c.getBoolean("logContainerOpen")) {
+                InventoryHolder holder = e.getInventory().getHolder();
+                Location loc;
+                if (holder instanceof BlockEntity) {
+                    loc = ((BlockEntity) holder).getLocation();
+                } else if (holder instanceof Entity) {
+                    loc = ((Entity) holder).getLocation();
+                } else {
+                    return;
+                }
+                Logger.get.print(e.getPlayer().getName() + " opened " + e.getInventory().getType() + " at [l] [x] [y] [z]", loc);
             }
         }
     }

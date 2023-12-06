@@ -1,4 +1,4 @@
-configVersion: 4
+configVersion: 5
 logFile: "/plugins/LoggerX/events.log"
 archiveOldLogs: true
 archiveLocation: "/plugins/LoggerX/archive"
@@ -13,5 +13,5 @@ logBucketFill: true
 logBucketEmpty: true
 logPlayerCommand: true
 logFire: true
-logChestOpen: true
+logContainerOpen: true
 logItemFrameDrop: true
