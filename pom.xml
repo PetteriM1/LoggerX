@@ -33,7 +33,7 @@
     <repositories>
         <repository>
             <id>nukkitx</id>
-            <url>https://repo.nukkitx.com/main/</url>
+            <url>https://repo.opencollab.dev/main/</url>
         </repository>
     </repositories>
     <dependencies>
